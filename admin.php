@@ -9,7 +9,6 @@ if (isset($_POST['lisamine'])) {
         $paring->execute();
         $paring->close();
         header("Location: " . $_SERVER["PHP_SELF"]);
-        exit;
     }
 }
 
@@ -19,7 +18,6 @@ if (isset($_GET["kustutusid"])) {
     $paring->bind_param("i", $_GET["kustutusid"]);
     $paring->execute();
     header("Location: " . $_SERVER["PHP_SELF"]);
-    exit;
 }
 
 // --- Muutmine ---
@@ -33,7 +31,6 @@ if (isset($_POST["muutmisid"])) {
     );
     $paring->execute();
     header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $_POST["muutmisid"]);
-    exit;
 }
 
 ?>
