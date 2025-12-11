@@ -1,4 +1,4 @@
-/* === Общие настройки === */
+
 body {
     margin: 0;
     padding: 0;
@@ -6,6 +6,52 @@ body {
     background: #f3eee9;
     color: #4a3b2a;
     line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+#osa3 {
+    width: 70%;
+    margin: 40px auto 20px auto;
+    text-align: center;
+    font-size: 18px;
+    color: #4a3b2a;
+    line-height: 1.6;
+}
+
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+.osa
+{
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.osa:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+.osa a {
+    text-decoration: none;
+    color: #6b4f3a;
+    font-size: 18px;
+}
+a{
+    color: black;
+}
+a:hover{
+    color: blue;
 }
 
 h1 {
@@ -18,24 +64,67 @@ h1 {
     font-size: 32px;
 }
 
-/* === Меню списка товаров === */
+
+nav {
+    background: #c7a17a;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    background: #b08867;
+    transform: translateY(-2px);
+}
+
+
+.main-content {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
 #menu {
     width: 250px;
-    float: left;
     background: #fff;
     padding: 20px;
     border-right: 2px solid #d9c7b3;
-    min-height: 100vh;
+    min-height: calc(100vh - 130px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    text-decoration: none;
 }
 
 #menu ul {
     list-style: none;
     padding: 0;
     margin: 0 0 20px 0;
+    text-decoration: none;
 }
 
 #menu ul li {
     margin-bottom: 12px;
+    text-decoration: none;
 }
 
 #menu ul li a {
@@ -46,6 +135,7 @@ h1 {
     color: #fff;
     border-radius: 6px;
     transition: 0.3s;
+    font-weight: bold;
 }
 
 #menu ul li a:hover {
@@ -70,22 +160,19 @@ h1 {
 }
 
 #sisukiht {
-    margin-left: 300px;
+    flex-grow: 1;
     padding: 30px;
+    background: #fefaf5;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-#sisukiht h2 {
-    color: #6b4f3a;
-}
-
-/* === Картинка товара === */
 #sisukiht img {
     border-radius: 10px;
     margin-top: 10px;
     box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-/* === Кнопки изменить / удалить === */
 .submit {
     display: inline-block;
     padding: 10px 18px;
@@ -102,7 +189,7 @@ h1 {
     background: #a66e48;
 }
 
-/* === Формы (изменение / добавление) === */
+
 form {
     width: 300px;
     padding: 20px;
@@ -145,10 +232,12 @@ form input[type="submit"]:hover {
     background: #7b5e43;
 }
 
+
 .check img {
     width: 300px;
     height: 250px;
     border-radius: 10px;
+    margin-left: 10px;
 }
 
 footer {
@@ -156,45 +245,65 @@ footer {
     padding: 20px;
     background: #6b4f3a;
     color: white;
-    margin-top: 40px;
-}
-#osa3 {
-    width: 70%;
-    margin: 40px auto 20px auto; /* отступ сверху 40px */
-    text-align: center;
-    font-size: 18px;
-    color: #4a3b2a;
-    line-height: 1.6;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 
-.menu {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 30px;
-}
-
-/* Общий стиль для osa-блоков */
-#osa1, #osa2 {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
+#menu1 {
     width: 250px;
+    background: #fff;
+    padding: 20px;
+    border-right: 2px solid #d9c7b3;
+    min-height: calc(100vh - 130px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    text-decoration: none;
+}
+
+#menu1 ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    text-decoration: none;
+}
+
+#menu1 ul li {
+    margin-bottom: 12px;
+    text-decoration: none;
+}
+
+#menu1 ul li a {
+    display: block;
+    padding: 10px 12px;
+    text-decoration: none;
+    background: #c7a17a;
+    color: #fff;
+    border-radius: 100%;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+#menu1 ul li a:hover {
+    background: #b08867;
+    transform: translateX(5px);
+}
+
+#menu1 .submit {
+    display: block;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 12px;
+    background: #8c6c4e;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
     transition: 0.3s;
 }
 
-/* Анимация при наведении */
-#osa1:hover, #osa2:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-}
-
-/* Ссылка внутри боксов */
-#osa1 a, #osa2 a {
-    text-decoration: none;
-    color: #6b4f3a;
-    font-size: 18px;
+#menu1 .submit:hover {
+    background: #7b5e43;
 }
