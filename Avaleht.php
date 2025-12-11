@@ -16,11 +16,14 @@
             Tulge nautima maitset, stiili ja soojust, mis muudavad iga külastuse eriliseks.
         </div>
                 <div class="menu">
-            <div id="osa1">
+            <div class="osa">
                 <a href="nimekiri.php"><strong>Kohvikuhindade nimekiri</strong></a>
             </div>
-            <div id="osa2">
+            <div class="osa">
                 <a href="admin.php"><strong>Administraator</strong></a>
+            </div>
+            <div class="osa">
+                <a href="galerii.php"><strong>Pildigalerii</strong></a>
             </div>
         </div>
 </body>
