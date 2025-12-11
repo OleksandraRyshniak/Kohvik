@@ -1,11 +1,12 @@
-<?php
-require("config.php");
+<?php if (isset($_GET['code'])) {die(highlight_file(__FILE__,1));}
 
+require("config.php");
+global $connect;
 // --- Lisamine ---
 if (isset($_POST['lisamine'])) {
     if (!empty($_POST['toode'])) {
-        $paring = $connect->prepare("INSERT INTO kohvik (toode, price, image) VALUES (?, ?, ?)");
-        $paring->bind_param("sss", $_POST['toode'], $_POST['price'], $_POST['image']);
+        $paring = $connect->prepare("INSERT INTO kohvik (toode, price, image, avalik) VALUES (?, ?, ?, ?)");
+        $paring->bind_param("sssi", $_POST['toode'], $_POST['price'], $_POST['image'], $_POST['avalik']);
         $paring->execute();
         $paring->close();
         header("Location: " . $_SERVER["PHP_SELF"]);
@@ -18,8 +19,8 @@ if (isset($_GET["kustutusid"])) {
     $paring->bind_param("i", $_GET["kustutusid"]);
     $paring->execute();
     header("Location: " . $_SERVER["PHP_SELF"]);
-}
 
+}
 // --- Muutmine ---
 if (isset($_POST["muutmisid"])) {
     $paring = $connect->prepare("UPDATE kohvik SET toode=?, price=?, image=? WHERE id=?");
@@ -30,9 +31,23 @@ if (isset($_POST["muutmisid"])) {
         $_POST["muutmisid"]
     );
     $paring->execute();
-    header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $_POST["muutmisid"]);
+    header("Location: " . $_SERVER["PHP_SELF"]);
 }
 
+//Näitamine
+if(isset($_REQUEST['naita'])){
+    $paring=$connect->prepare("Update kohvik SET avalik=1 WHERE id=?");
+    $paring->bind_param('i',$_REQUEST['naita']);
+    $paring->execute();
+    header("Location:".$_SERVER['PHP_SELF']); //aadressiriba puhastab päring ja jääb faili nimi
+}
+//Peida
+if(isset($_REQUEST['peida'])){
+    $paring=$connect->prepare("Update kohvik SET avalik=0 WHERE id=?");
+    $paring->bind_param('i',$_REQUEST['peida']);
+    $paring->execute();
+    header("Location:".$_SERVER['PHP_SELF']); //aadressiriba puhastab päring ja jääb faili nimi
+}
 ?>
 <!DOCTYPE html>
 <html lang="et">
@@ -44,7 +59,23 @@ if (isset($_POST["muutmisid"])) {
 <body>
 
 <h1>Admin kohvik "KAVA"</h1>
-
+<nav>
+    <ul>
+        <li>
+            <a href="Avaleht.php">Avaleht</a>
+        </li>
+        <li>
+            <a href="nimekiri.php">Kohvikuhindade nimekiri</a>
+        </li>
+        <li>
+            <a href="admin.php">Administraator</a>
+        </li>
+        <li>
+            <a href="galerii.php">Pildigalerii</a>
+        </li>
+    </ul>
+</nav>
+<div class="main-content">
 <div id="menu">
     <ul>
         <?php
@@ -58,16 +89,17 @@ if (isset($_POST["muutmisid"])) {
     </ul>
 
     <a href="?lisamine=jah" class='submit'>Lisa ...</a>
+    <br>
+    <a href="Avaleht.php" class='submit'>Tagasi</a>
 </div>
 
 <div id="sisukiht">
-
 <?php
 // --- Ühe toote kuvamine ---
 if (isset($_GET["id"])) {
-    $kask = $connect->prepare("SELECT id, toode, price, image FROM kohvik WHERE id=?");
-    $kask->bind_result($id, $toode, $price, $image);
-    $kask->bind_param("i", $_GET["id"]);
+    $kask = $connect->prepare("SELECT id, toode, price,avalik, image FROM kohvik WHERE id=?");
+    $kask->bind_result($id, $toode, $price, $avalik, $image);
+    $kask->bind_param("i", $_REQUEST["id"]);
     $kask->execute();
 
     if ($kask->fetch()) {
@@ -97,8 +129,18 @@ if (isset($_GET["id"])) {
         else {
             echo "<h2>" . htmlspecialchars($toode) . "</h2>";
             echo "Hind: " . htmlspecialchars($price) . " €<br>";
-            echo "<img src='" . htmlspecialchars($image) . "' alt='pilt' height='150'><br><br>";
-
+            $tekst="Näita";
+            $seisund="naita";
+            $tekstLehel="Peidetud";
+            if($avalik==1){
+                $tekstLehel='Näidatud';
+                $seisund='peida';
+                $tekst='Peida';
+            }
+            echo "Muuda staatus: " ."<a href='?$seisund=$id'>$tekst</a>". "<br>";
+            echo "Status: ".$tekstLehel."<br>";
+            echo "<img src='" . htmlspecialchars($image) . "' alt='pilt' height='150'>
+            <br><br>";
             echo "<a class='submit' href='?kustutusid=$id'>kustuta</a> ";
             echo "<a class='submit' href='?id=$id&muutmine=jah'>muuda</a>";
         }
@@ -124,6 +166,12 @@ elseif (isset($_GET['lisamine'])) {
         <label>Pildi URL:</label><br>
         <textarea name="image"></textarea><br><br>
 
+        <label for="avalik">Staatus: </label>
+        <select name='avalik' id='avalik'>
+            <option value=''></option>
+            <option value='1'>Avalik</option>
+            <option value='0'>Peidetud</option>
+        </select>
         <input type="submit" value="Sisesta">
     </form>
     <?php
@@ -131,6 +179,7 @@ elseif (isset($_GET['lisamine'])) {
 
 ?>
 </div>
+    </div>
 </body>
 <footer>
     Lehe tegi Oleksandra Ryshniak
